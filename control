@@ -1,0 +1,11 @@
+Package: bits-networks-bot
+Version: 1.0.0
+Depends: libc, python3-light, python3-asyncio, python3-urllib, python3-logging, curl, ca-certificates
+Section: utils
+Architecture: all
+Maintainer: Banten IT Solutions <support@bits.co.id>
+License: MIT
+Description: Telegram management bot for OpenWrt routers (BITS-WRT)
+  Monitor and manage your OpenWrt device via Telegram: status, internet
+  (Huawei HiLink), momo VPN, Tailscale, clients, schedule (Bandix), Docker,
+  firewall, storage, logs, backup, reboot and network tools.

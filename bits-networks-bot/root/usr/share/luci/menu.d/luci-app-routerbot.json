@@ -1,0 +1,13 @@
+{
+	"admin/services/routerbot": {
+		"title": "BITS Networks Bot",
+		"order": 95,
+		"action": {
+			"type": "view",
+			"path": "routerbot/config"
+		},
+		"depends": {
+			"uci": { "routerbot": true }
+		}
+	}
+}
