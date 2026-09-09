@@ -1,3 +1,10 @@
+## [1.1.11](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.10...v1.1.11) (2026-09-09)
+
+
+### Bug Fixes
+
+* reorder LuCI menu (bot above tailscale in Services) ([c58dede](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/c58dededfe4c50401222905c306029cecc24ab04))
+
 ## [1.1.10](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.9...v1.1.10) (2026-09-09)
 
 

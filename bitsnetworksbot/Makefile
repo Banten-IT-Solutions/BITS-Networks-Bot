@@ -7,7 +7,7 @@
 include $(TOPDIR)/rules.mk
 
 PKG_NAME:=bitsnetworksbot
-PKG_VERSION:=1.1.10
+PKG_VERSION:=1.1.11
 PKG_RELEASE:=1
 
 PKG_MAINTAINER:=Banten IT Solutions <support@bits.co.id>
