@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.2.1...v1.2.2) (2026-09-09)
+
+
+### Bug Fixes
+
+* grep -F for css marker (regex * broke idempotency) + trailing newline in control ([c1c0719](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/c1c07199fbd60c1efffbc9b93b00684aa543e445))
+
 ## [1.2.1](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.2.0...v1.2.1) (2026-09-09)
 
 
