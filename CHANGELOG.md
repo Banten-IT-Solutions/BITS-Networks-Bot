@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.0.0...v1.1.0) (2026-09-09)
+
+
+### Features
+
+* rename service/config to bitsnetworksbot + add speedtest-go & pip deps ([72c470e](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/72c470ee41eeb532d9b9b2ccebb86ccffc65e410))
+
 # 1.0.0 (2026-09-09)
 
 
