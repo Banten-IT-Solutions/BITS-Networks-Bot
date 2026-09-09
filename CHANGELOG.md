@@ -1,3 +1,10 @@
+## [1.1.4](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.3...v1.1.4) (2026-09-09)
+
+
+### Bug Fixes
+
+* correct /devices label to /klien in LuCI config ([9039efb](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/9039efb2331d35eae861305649db99b9c4d1e713))
+
 ## [1.1.3](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.2...v1.1.3) (2026-09-09)
 
 
