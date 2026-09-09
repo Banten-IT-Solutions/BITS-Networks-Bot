@@ -1,3 +1,10 @@
+## [1.1.5](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.4...v1.1.5) (2026-09-09)
+
+
+### Bug Fixes
+
+* stop auto-adding bot ID to allowed users (breaks notify / misleading count) ([d9f1acc](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/d9f1acc002ca543be89c27b4f20f8045963aee81))
+
 ## [1.1.4](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.3...v1.1.4) (2026-09-09)
 
 
