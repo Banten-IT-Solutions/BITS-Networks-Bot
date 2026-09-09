@@ -1,3 +1,10 @@
+## [1.1.10](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.9...v1.1.10) (2026-09-09)
+
+
+### Bug Fixes
+
+* **docker:** drop capture_output+stderr conflict so '/docker logs' and '/docker ps' work ([a47d2fd](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/a47d2fd22e15bd30ed9e5432e365981675e465bd))
+
 ## [1.1.9](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.8...v1.1.9) (2026-09-09)
 
 
