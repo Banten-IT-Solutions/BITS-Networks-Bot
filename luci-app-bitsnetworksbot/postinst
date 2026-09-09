@@ -10,7 +10,7 @@
 	for _bnb_dir in /www/luci-static/*; do
 		[ -d "$_bnb_dir" ] || continue
 		_bnb_css="$_bnb_dir/custom.css"
-		if ! grep -q "$_bnb_marker" "$_bnb_css" 2>/dev/null; then
+		if ! grep -Fq "$_bnb_marker" "$_bnb_css" 2>/dev/null; then
 			cat >> "$_bnb_css" <<'CSS'
 
 /* bitsnetworksbot responsive */
