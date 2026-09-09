@@ -10,7 +10,7 @@ local os = require("os")
 -- Seksi Pengaturan Koneksi Bot
 -- ===================================================
 
-local s = m:section(TypedSection, "config", translate("Pengaturan Koneksi Bot"))
+local s = m:section(TypedSection, "bitsnetworksbot", translate("Pengaturan Koneksi Bot"))
 s.anonymous = true
 
 -- TOKEN
@@ -28,7 +28,7 @@ users.description = translate("Daftar ID Pengguna Telegram yang diizinkan, dipis
 -- Seksi Pengaturan Fitur
 -- ===================================================
 
-s = m:section(TypedSection, "config", translate("Aktifkan/Nonaktifkan Fitur"))
+s = m:section(TypedSection, "bitsnetworksbot", translate("Aktifkan/Nonaktifkan Fitur"))
 s.anonymous = true
 
 local function create_checkbox(section, name, label, description)
