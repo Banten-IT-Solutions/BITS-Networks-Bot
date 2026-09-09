@@ -3,7 +3,7 @@
 		"title": "BITS Networks Bot",
 		"order": 95,
 		"action": {
-			"type": "view",
+			"type": "cbi",
 			"path": "bitsnetworksbot/config"
 		},
 		"depends": {

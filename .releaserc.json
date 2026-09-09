@@ -8,7 +8,7 @@
       "prepareCmd": "node scripts/prepare.js ${nextRelease.version}"
     }],
     ["@semantic-release/git", {
-      "assets": ["package.json", "control", "bits-networks-bot/Makefile", "CHANGELOG.md"],
+      "assets": ["package.json", "control", "bitsnetworksbot/Makefile", "CHANGELOG.md"],
       "message": "chore(release): ${nextRelease.version} [skip ci]\n\n${nextRelease.notes}"
     }],
     ["@semantic-release/github", {

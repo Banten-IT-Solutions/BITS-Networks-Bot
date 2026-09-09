@@ -1,5 +1,5 @@
 #!/bin/sh
-# postinst bits-networks-bot
+# postinst bitsnetworksbot
 # Bersihkan cache LuCI, aktifkan servis procd, dan best-effort pasang
 # python-telegram-bot bila belum ada (non-fatal, latar-belakang).
 

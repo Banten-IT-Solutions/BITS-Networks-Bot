@@ -1,9 +1,9 @@
 #!/usr/bin/env bash
-# Pack bits-networks-bot menjadi .ipk tanpa OpenWrt SDK.
+# Pack bitsnetworksbot menjadi .ipk tanpa OpenWrt SDK.
 # Format ipk OpenWrt = tar.gz luar berisi ./debian-binary + ./control.tar.gz + ./data.tar.gz.
 set -euo pipefail
 
-PKG_NAME=bits-networks-bot
+PKG_NAME=bitsnetworksbot
 PKG_VER=$(awk -F': ' '/^Version:/{print $2; exit}' control)
 OUT="dist/${PKG_NAME}_${PKG_VER}_all.ipk"
 
@@ -11,7 +11,7 @@ rm -rf .build dist
 mkdir -p .build/root .build/control .build/outer dist
 
 # root/ -> payload ipk (usr/bin, etc/init.d, etc/config, LuCI)
-cp -a bits-networks-bot/root/. .build/root/
+cp -a bitsnetworksbot/root/. .build/root/
 
 # control + postinst + conffiles
 cp control .build/control/control

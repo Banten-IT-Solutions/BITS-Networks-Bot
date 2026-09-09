@@ -1,5 +1,5 @@
 {
-  "name": "bits-networks-bot",
+  "name": "bitsnetworksbot",
   "version": "1.1.0",
   "private": true,
   "description": "Telegram management bot for OpenWrt routers (BITS-WRT)",

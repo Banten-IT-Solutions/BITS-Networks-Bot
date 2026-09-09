@@ -57,7 +57,7 @@ BITS-Networks-Bot/
 ├── .github/
 │   └── workflows/
 │       └── release.yml            # semantic-release + build .ipk + attach asset
-├── bits-networks-bot/
+├── bitsnetworksbot/
 │   ├── Makefile                   # OpenWrt package def (package.mk)
 │   └── root/
 │       ├── usr/bin/bitsnetworksbot.py         # bot utama (Python)
@@ -92,7 +92,7 @@ Grab the `.ipk` from the [Releases](https://github.com/Banten-IT-Solutions/BITS-
 ### 2. Install
 
 ```sh
-opkg install bits-networks-bot_<version>_all.ipk
+opkg install bitsnetworksbot_<version>_all.ipk
 ```
 
 Dependencies (`python3-light`, `python3-asyncio`, `python3-urllib`, `python3-logging`, `python3-pip`, `curl`, `ca-certificates`, `speedtest-go`) are installed automatically. `python-telegram-bot` (not in the official feed) is installed best-effort via `pip` in the `postinst`.
@@ -132,7 +132,7 @@ Best for fast development and CI. Requires only `bash` + `tar` &mdash; no toolch
 
 ```sh
 ./build.sh
-# output: dist/bits-networks-bot_<version>_all.ipk
+# output: dist/bitsnetworksbot_<version>_all.ipk
 ```
 
 > The OpenWrt `.ipk` format is an outer `tar.gz` containing `./debian-binary` + `./control.tar.gz` + `./data.tar.gz`.
@@ -143,9 +143,9 @@ Copy the package folder to `feeds/packages/utils/`, then:
 
 ```sh
 ./scripts/feeds update -a
-./scripts/feeds install bits-networks-bot
-make menuconfig   # Utilities -> bits-networks-bot
-make package/bits-networks-bot/compile
+./scripts/feeds install bitsnetworksbot
+make menuconfig   # Utilities -> bitsnetworksbot
+make package/bitsnetworksbot/compile
 ```
 
 ---

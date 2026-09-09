@@ -21,9 +21,9 @@ control = control.replace(/^Version: .*$/m, `Version: ${version}`);
 fs.writeFileSync('control', control);
 
 // 3) bump Makefile (OpenWrt build system PKG_VERSION)
-let makefile = fs.readFileSync('bits-networks-bot/Makefile', 'utf8');
+let makefile = fs.readFileSync('bitsnetworksbot/Makefile', 'utf8');
 makefile = makefile.replace(/^PKG_VERSION:=.*$/m, `PKG_VERSION:=${version}`);
-fs.writeFileSync('bits-networks-bot/Makefile', makefile);
+fs.writeFileSync('bitsnetworksbot/Makefile', makefile);
 
 // 4) build ipk (build.sh membaca Version dari control)
 execSync('bash build.sh', { stdio: 'inherit' });
