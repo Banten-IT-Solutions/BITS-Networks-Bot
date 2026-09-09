@@ -6,7 +6,6 @@
 			"type": "cbi",
 			"path": "bitsnetworksbot/config"
 		},
-		"css": "view/bitsnetworksbot/style.css",
 		"depends": {
 			"uci": { "bitsnetworksbot": true }
 		}

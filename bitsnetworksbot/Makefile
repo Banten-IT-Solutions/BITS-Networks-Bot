@@ -52,10 +52,6 @@ define Package/bitsnetworksbot/install
 	$(INSTALL_DIR) $(1)/usr/share/luci/menu.d
 	$(INSTALL_DATA) ./root/usr/share/luci/menu.d/luci-app-bitsnetworksbot.json \
 		$(1)/usr/share/luci/menu.d/luci-app-bitsnetworksbot.json
-
-	$(INSTALL_DIR) $(1)/www/luci-static/resources/view/bitsnetworksbot
-	$(INSTALL_DATA) ./root/www/luci-static/resources/view/bitsnetworksbot/style.css \
-		$(1)/www/luci-static/resources/view/bitsnetworksbot/style.css
 endef
 
 $(eval $(call BuildPackage,bitsnetworksbot))
