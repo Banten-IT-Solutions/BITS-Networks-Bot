@@ -1,3 +1,10 @@
+## [1.1.3](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.2...v1.1.3) (2026-09-09)
+
+
+### Bug Fixes
+
+* correct CBI TypedSection type so values render (was showing 'no values yet') ([df282cf](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/df282cf51aa2b455a3d9b0ec56717ac094ecdf8d))
+
 ## [1.1.2](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.1...v1.1.2) (2026-09-09)
 
 
