@@ -1,3 +1,10 @@
+## [1.1.8](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.7...v1.1.8) (2026-09-09)
+
+
+### Bug Fixes
+
+* responsive password field via theme custom.css (menu.d css tidak didukung CBI) ([01c0f47](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/01c0f47f67d16a26772645c901196b995c048822))
+
 ## [1.1.7](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.6...v1.1.7) (2026-09-09)
 
 
