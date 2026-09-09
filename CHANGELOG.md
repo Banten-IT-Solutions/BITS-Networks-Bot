@@ -1,3 +1,10 @@
+## [1.1.7](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.6...v1.1.7) (2026-09-09)
+
+
+### Bug Fixes
+
+* **reliability:** prevent 'Timed out' crash — timeouts + graceful startup retry + loop exc handler ([3c79bf3](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/3c79bf3cdbfb0da402ee39c53f38ff5063b60606))
+
 ## [1.1.6](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.5...v1.1.6) (2026-09-09)
 
 
