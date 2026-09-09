@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.0...v1.1.1) (2026-09-09)
+
+
+### Bug Fixes
+
+* rename package to bitsnetworksbot + fix LuCI menu (cbi) [skip release note] ([ed1b7f1](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/ed1b7f1f884e427990c56bf21593d63e29bb4f11))
+
 # [1.1.0](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.0.0...v1.1.0) (2026-09-09)
 
 
