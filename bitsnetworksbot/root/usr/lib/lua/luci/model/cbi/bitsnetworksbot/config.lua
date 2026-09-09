@@ -42,7 +42,7 @@ local function create_checkbox(section, name, label, description)
 end
 
 create_checkbox(s, "status", "Aktifkan Perintah Status (/status)", "Menampilkan Uptime, CPU, Memori, dan IP WAN.")
-create_checkbox(s, "devices", "Aktifkan Daftar Klien (/devices)", "Menampilkan daftar perangkat yang terhubung melalui DHCP.")
+create_checkbox(s, "devices", "Aktifkan Daftar Klien (/klien)", "Menampilkan daftar perangkat yang terhubung melalui DHCP.")
 create_checkbox(s, "reboot", "Aktifkan Reboot Router (/reboot)", "Perintah untuk me-restart router (membutuhkan konfirmasi).")
 create_checkbox(s, "internet", "Aktifkan Internet (/internet)", "Status WAN, tethering, sinyal Huawei & top trafik.")
 create_checkbox(s, "momo", "Aktifkan Momo (/momo)", "Status, restart & clear-log Momo.")
