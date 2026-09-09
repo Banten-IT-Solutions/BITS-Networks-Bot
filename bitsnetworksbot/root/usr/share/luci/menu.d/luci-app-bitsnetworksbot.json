@@ -1,7 +1,7 @@
 {
 	"admin/services/bitsnetworksbot": {
 		"title": "BITS Networks Bot",
-		"order": 95,
+		"order": 90,
 		"action": {
 			"type": "cbi",
 			"path": "bitsnetworksbot/config"
