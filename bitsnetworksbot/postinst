@@ -16,24 +16,6 @@
 	if ! python3 -c "import telegram" >/dev/null 2>&1 && command -v pip3 >/dev/null 2>&1; then
 		( pip3 install --no-cache-dir python-telegram-bot >/tmp/bitsnetworksbot-pip.log 2>&1 & )
 	fi
-
-	# Responsive fix: theme tidak handle input[type=password] di mobile.
-	# Suntik CSS ke custom.css tema (idempotent).
-	_bnb_marker="/* bitsnetworksbot responsive */"
-	for _bnb_dir in /www/luci-static/*; do
-		[ -d "$_bnb_dir" ] || continue
-		_bnb_css="$_bnb_dir/custom.css"
-		if ! grep -q "$_bnb_marker" "$_bnb_css" 2>/dev/null; then
-			cat >> "$_bnb_css" <<'CSS'
-
-/* bitsnetworksbot responsive */
-@media (max-width: 600px) {
-    .cbi-value input[type="password"] { width: 100% !important; min-width: 0 !important; }
-}
-CSS
-		fi
-	done
-	rm -rf /tmp/luci-indexcache /tmp/luci-modulecache
 }
 
 exit 0

@@ -1,34 +1,41 @@
 #!/usr/bin/env bash
-# Pack bitsnetworksbot menjadi .ipk tanpa OpenWrt SDK.
+# Pack bitsnetworksbot + luci-app-bitsnetworksbot jadi .ipk tanpa OpenWrt SDK.
 # Format ipk OpenWrt = tar.gz luar berisi ./debian-binary + ./control.tar.gz + ./data.tar.gz.
 set -euo pipefail
 
-PKG_NAME=bitsnetworksbot
-PKG_VER=$(awk -F': ' '/^Version:/{print $2; exit}' control)
-OUT="dist/${PKG_NAME}_${PKG_VER}_all.ipk"
+PACKAGES="bitsnetworksbot luci-app-bitsnetworksbot"
 
 rm -rf .build dist
-mkdir -p .build/root .build/control .build/outer dist
+mkdir -p dist
 
-# root/ -> payload ipk (usr/bin, etc/init.d, etc/config, LuCI)
-cp -a bitsnetworksbot/root/. .build/root/
+for pkg in $PACKAGES; do
+	pkg_ver=$(awk -F': ' '/^Version:/{print $2; exit}' "$pkg/control")
+	out="dist/${pkg}_${pkg_ver}_all.ipk"
+	b=".build/$pkg"
+	mkdir -p "$b/root" "$b/control" "$b/outer"
 
-# control + postinst + conffiles
-cp control .build/control/control
-if [ -f postinst ]; then
-	cp postinst .build/control/postinst
-	chmod 755 .build/control/postinst
-fi
-if [ -f conffiles ]; then
-	cp conffiles .build/control/conffiles
-fi
+	# root/ -> payload ipk
+	cp -a "$pkg/root/." "$b/root/"
 
-tar czf .build/data.tar.gz --owner=0 --group=0 -C .build/root .
-tar czf .build/control.tar.gz --owner=0 --group=0 -C .build/control .
-printf '2.0\n' > .build/debian-binary
+	# control + postinst + conffiles
+	cp "$pkg/control" "$b/control/control"
+	if [ -f "$pkg/postinst" ]; then
+		cp "$pkg/postinst" "$b/control/postinst"
+		chmod 755 "$b/control/postinst"
+	fi
+	if [ -f "$pkg/conffiles" ]; then
+		cp "$pkg/conffiles" "$b/control/conffiles"
+	fi
 
-cp .build/debian-binary .build/control.tar.gz .build/data.tar.gz .build/outer/
-tar czf "$OUT" -C .build/outer .
+	tar czf "$b/data.tar.gz" --owner=0 --group=0 -C "$b/root" .
+	tar czf "$b/control.tar.gz" --owner=0 --group=0 -C "$b/control" .
+	printf '2.0\n' > "$b/debian-binary"
+
+	cp "$b/debian-binary" "$b/control.tar.gz" "$b/data.tar.gz" "$b/outer/"
+	tar czf "$out" -C "$b/outer" .
+
+	echo "Built: $out"
+done
 
 rm -rf .build
-echo "Built: $OUT"
+echo "Done: $(ls dist/*.ipk | wc -l) ipk"

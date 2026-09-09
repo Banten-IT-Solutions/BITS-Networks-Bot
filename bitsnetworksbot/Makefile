@@ -44,14 +44,6 @@ define Package/bitsnetworksbot/install
 
 	$(INSTALL_DIR) $(1)/etc/config
 	$(INSTALL_DATA) ./root/etc/config/bitsnetworksbot $(1)/etc/config/bitsnetworksbot
-
-	$(INSTALL_DIR) $(1)/usr/lib/lua/luci/model/cbi/bitsnetworksbot
-	$(INSTALL_DATA) ./root/usr/lib/lua/luci/model/cbi/bitsnetworksbot/config.lua \
-		$(1)/usr/lib/lua/luci/model/cbi/bitsnetworksbot/config.lua
-
-	$(INSTALL_DIR) $(1)/usr/share/luci/menu.d
-	$(INSTALL_DATA) ./root/usr/share/luci/menu.d/luci-app-bitsnetworksbot.json \
-		$(1)/usr/share/luci/menu.d/luci-app-bitsnetworksbot.json
 endef
 
 $(eval $(call BuildPackage,bitsnetworksbot))

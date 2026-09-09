@@ -57,20 +57,25 @@ BITS-Networks-Bot/
 ├── .github/
 │   └── workflows/
 │       └── release.yml            # semantic-release + build .ipk + attach asset
-├── bitsnetworksbot/
-│   ├── Makefile                   # OpenWrt package def (package.mk)
+├── bitsnetworksbot/               # ← paket DAEMON (package.mk)
+│   ├── Makefile                   # OpenWrt package def
+│   ├── control                    # ipk metadata (+ Depends)
+│   ├── conffiles                  # preserve /etc/config/bitsnetworksbot
+│   ├── postinst                   # enable procd + auto pip install (best-effort)
 │   └── root/
 │       ├── usr/bin/bitsnetworksbot.py         # bot utama (Python)
 │       ├── etc/init.d/bitsnetworksbot         # procd init script
-│       ├── etc/config/bitsnetworksbot         # UCI default config
+│       └── etc/config/bitsnetworksbot         # UCI default config
+├── luci-app-bitsnetworksbot/      # ← paket UI (luci.mk), depends +bitsnetworksbot
+│   ├── Makefile                   # OpenWrt package def (luci.mk)
+│   ├── control                    # ipk metadata
+│   ├── postinst                   # inject CSS responsive + clear cache
+│   └── root/
 │       ├── usr/lib/lua/luci/model/cbi/bitsnetworksbot/config.lua   # LuCI CBI
 │       └── usr/share/luci/menu.d/luci-app-bitsnetworksbot.json     # LuCI menu
 ├── scripts/
-│   └── prepare.js                 # sync version + build (used by semantic-release)
-├── build.sh                       # SDK-less .ipk packer
-├── control                        # ipk metadata (+ Depends)
-├── conffiles                      # preserve /etc/config/bitsnetworksbot
-├── postinst                       # enable procd + auto pip install (best-effort)
+│   └── prepare.js                 # sync version + build (2 ipk)
+├── build.sh                       # SDK-less .ipk packer (2 packages)
 ├── package.json                   # semantic-release + plugins
 ├── .releaserc.json                # release plugins (git + github)
 └── LICENSE
@@ -92,10 +97,13 @@ Grab the `.ipk` from the [Releases](https://github.com/Banten-IT-Solutions/BITS-
 ### 2. Install
 
 ```sh
+# bot daemon (wajib)
 opkg install bitsnetworksbot_<version>_all.ipk
+# halaman LuCI (opsional)
+opkg install luci-app-bitsnetworksbot_<version>_all.ipk
 ```
 
-Dependencies (`python3-light`, `python3-asyncio`, `python3-urllib`, `python3-logging`, `python3-pip`, `curl`, `ca-certificates`, `speedtest-go`) are installed automatically. `python-telegram-bot` (not in the official feed) is installed best-effort via `pip` in the `postinst`.
+Dependencies (`python3-light`, `python3-asyncio`, `python3-urllib`, `python3-logging`, `python3-pip`, `curl`, `ca-certificates`, `speedtest-go`) are installed automatically. `python-telegram-bot` (not in the official feed) is installed best-effort via `pip` in the `postinst`. The LuCI page is a separate `luci-app-bitsnetworksbot` package (`Depends: bitsnetworksbot`).
 
 ### 3. Configure
 
@@ -133,19 +141,20 @@ Best for fast development and CI. Requires only `bash` + `tar` &mdash; no toolch
 ```sh
 ./build.sh
 # output: dist/bitsnetworksbot_<version>_all.ipk
+#         dist/luci-app-bitsnetworksbot_<version>_all.ipk
 ```
 
 > The OpenWrt `.ipk` format is an outer `tar.gz` containing `./debian-binary` + `./control.tar.gz` + `./data.tar.gz`.
 
 ### Option B — OpenWrt Build System
 
-Copy the package folder to `feeds/packages/utils/`, then:
+Daemon ke `feeds/packages/utils/`, UI ke `feeds/luci/applications/`, lalu:
 
 ```sh
 ./scripts/feeds update -a
-./scripts/feeds install bitsnetworksbot
-make menuconfig   # Utilities -> bitsnetworksbot
-make package/bitsnetworksbot/compile
+./scripts/feeds install bitsnetworksbot luci-app-bitsnetworksbot
+make menuconfig   # Utilities -> bitsnetworksbot ; LuCI -> Applications -> luci-app-bitsnetworksbot
+make package/bitsnetworksbot/compile package/luci-app-bitsnetworksbot/compile
 ```
 
 ---

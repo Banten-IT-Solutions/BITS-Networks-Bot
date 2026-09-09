@@ -1,5 +1,6 @@
 // prepare.js — dipanggil semantic-release pada fase "prepare".
-// Menyelaraskan versi package.json + control (opkg) + Makefile, lalu membangun .ipk.
+// Menyelaraskan versi package.json + control + Makefile (kedua paket),
+// lalu membangun .ipk (bitsnetworksbot + luci-app-bitsnetworksbot).
 const fs = require('fs');
 const { execSync } = require('child_process');
 
@@ -10,22 +11,26 @@ if (!version) {
   process.exit(1);
 }
 
-// 1) bump package.json
+const packages = ['bitsnetworksbot', 'luci-app-bitsnetworksbot'];
+
+// package.json
 const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 pkg.version = version;
 fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
 
-// 2) bump control (opkg)
-let control = fs.readFileSync('control', 'utf8');
-control = control.replace(/^Version: .*$/m, `Version: ${version}`);
-fs.writeFileSync('control', control);
+for (const name of packages) {
+  // control (opkg)
+  let control = fs.readFileSync(`${name}/control`, 'utf8');
+  control = control.replace(/^Version: .*$/m, `Version: ${version}`);
+  fs.writeFileSync(`${name}/control`, control);
 
-// 3) bump Makefile (OpenWrt build system PKG_VERSION)
-let makefile = fs.readFileSync('bitsnetworksbot/Makefile', 'utf8');
-makefile = makefile.replace(/^PKG_VERSION:=.*$/m, `PKG_VERSION:=${version}`);
-fs.writeFileSync('bitsnetworksbot/Makefile', makefile);
+  // Makefile (OpenWrt build system PKG_VERSION)
+  let makefile = fs.readFileSync(`${name}/Makefile`, 'utf8');
+  makefile = makefile.replace(/^PKG_VERSION:=.*$/m, `PKG_VERSION:=${version}`);
+  fs.writeFileSync(`${name}/Makefile`, makefile);
+}
 
-// 4) build ipk (build.sh membaca Version dari control)
+// build ipk (build.sh membaca Version dari masing-masing control)
 execSync('bash build.sh', { stdio: 'inherit' });
 
 console.log(`prepared version ${version}`);

@@ -1,0 +1,26 @@
+#!/bin/sh
+# postinst luci-app-bitsnetworksbot
+# Bersihkan cache LuCI + suntik CSS responsive ke tema (idempotent).
+
+[ -z "$IPKG_INSTROOT" ] && {
+	rm -rf /tmp/luci-indexcache /tmp/luci-modulecache /tmp/.uci
+
+	# Responsive fix: theme tidak handle input[type=password] di mobile.
+	_bnb_marker="/* bitsnetworksbot responsive */"
+	for _bnb_dir in /www/luci-static/*; do
+		[ -d "$_bnb_dir" ] || continue
+		_bnb_css="$_bnb_dir/custom.css"
+		if ! grep -q "$_bnb_marker" "$_bnb_css" 2>/dev/null; then
+			cat >> "$_bnb_css" <<'CSS'
+
+/* bitsnetworksbot responsive */
+@media (max-width: 600px) {
+    .cbi-value input[type="password"] { width: 100% !important; min-width: 0 !important; }
+}
+CSS
+		fi
+	done
+	rm -rf /tmp/luci-indexcache /tmp/luci-modulecache
+}
+
+exit 0
