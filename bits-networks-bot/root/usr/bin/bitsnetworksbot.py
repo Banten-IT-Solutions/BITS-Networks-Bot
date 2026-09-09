@@ -19,12 +19,12 @@ from telegram.error import NetworkError
 from telegram.ext import ApplicationBuilder, CommandHandler, ContextTypes, CallbackQueryHandler, Application, MessageHandler, filters
 
 # ================= KONFIGURASI DASAR =================
-CONFIG_FILE = "routerbot"
+CONFIG_FILE = "bitsnetworksbot"
 TOKEN = ""
 ALLOWED_USERS = []
 ENABLED_COMMANDS = {}
 
-LOG_FILE = "/var/log/routerbot.log"
+LOG_FILE = "/var/log/bitsnetworksbot.log"
 DIV = "━" * 24
 BRAND = "BITS Networks Bot"
 

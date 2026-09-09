@@ -7,14 +7,14 @@
 	rm -rf /tmp/luci-indexcache /tmp/luci-modulecache /tmp/.uci
 
 	# Aktifkan servis procd (bukan start — bot butuh token dulu).
-	if [ -x /etc/init.d/routerbot ]; then
-		/etc/init.d/routerbot enable >/dev/null 2>&1
+	if [ -x /etc/init.d/bitsnetworksbot ]; then
+		/etc/init.d/bitsnetworksbot enable >/dev/null 2>&1
 	fi
 
 	# python-telegram-bot tidak ada di feed OpenWrt resmi; diinstal lewat pip.
 	# Usahakan pemasangan otomatis bila pip tersedia; non-fatal.
 	if ! python3 -c "import telegram" >/dev/null 2>&1 && command -v pip3 >/dev/null 2>&1; then
-		( pip3 install --no-cache-dir python-telegram-bot >/tmp/routerbot-pip.log 2>&1 & )
+		( pip3 install --no-cache-dir python-telegram-bot >/tmp/bitsnetworksbot-pip.log 2>&1 & )
 	fi
 }
 

@@ -1,6 +1,6 @@
 Package: bits-networks-bot
 Version: 1.0.0
-Depends: libc, python3-light, python3-asyncio, python3-urllib, python3-logging, curl, ca-certificates
+Depends: libc, python3-light, python3-asyncio, python3-urllib, python3-logging, python3-pip, curl, ca-certificates, speedtest-go
 Section: utils
 Architecture: all
 Maintainer: Banten IT Solutions <support@bits.co.id>

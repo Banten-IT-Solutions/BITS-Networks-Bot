@@ -1,6 +1,6 @@
--- /usr/lib/lua/luci/model/cbi/routerbot/config.lua
+-- /usr/lib/lua/luci/model/cbi/bitsnetworksbot/config.lua
 
-local m = Map("routerbot", translate("BITS Networks Bot"))
+local m = Map("bitsnetworksbot", translate("BITS Networks Bot"))
 
 -- Modul yang dibutuhkan
 local nixio = require("nixio")
@@ -60,7 +60,7 @@ create_checkbox(s, "firewall", "Aktifkan Firewall (/firewall)", "Ringkasan & res
 -- ===================================================
 
 m.on_commit = function(map)
-    os.execute("/etc/init.d/routerbot reload >/dev/null 2>&1") 
+    os.execute("/etc/init.d/bitsnetworksbot reload >/dev/null 2>&1") 
 end
 
 return m

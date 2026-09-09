@@ -1,4 +1,4 @@
-config routerbot 'config'
+config bitsnetworksbot 'config'
 	option token ''
 	option allowed_users ''
 	option enable_status '1'

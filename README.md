@@ -34,9 +34,9 @@ Telegram management bot for OpenWrt routers — monitor and control your BITS-WR
 |---|---|
 | **Runtime** | OpenWrt + Python 3 (`python-telegram-bot`) |
 | **Bot** | `python-telegram-bot` v22 (async / `asyncio`) |
-| **Config** | UCI (`/etc/config/routerbot`) |
-| **LuCI** | CBI model (`routerbot/config`) + `menu.d` |
-| **Service** | procd (`/etc/init.d/routerbot`) |
+| **Config** | UCI (`/etc/config/bitsnetworksbot`) |
+| **LuCI** | CBI model (`bitsnetworksbot/config`) + `menu.d` |
+| **Service** | procd (`/etc/init.d/bitsnetworksbot`) |
 | **Build** | `bash` + `tar` (SDK-less) + OpenWrt build system (`package.mk`) |
 | **Release** | semantic-release + GitHub Actions |
 
@@ -50,11 +50,11 @@ BITS-Networks-Bot/
 ├── bits-networks-bot/
 │   ├── Makefile                             # OpenWrt build system (package.mk)
 │   └── root/
-│       ├── usr/bin/router-bot.py            # bot utama (Python)
-│       ├── etc/init.d/routerbot             # procd init script
-│       ├── etc/config/routerbot             # UCI default config
-│       ├── usr/lib/lua/luci/model/cbi/routerbot/config.lua   # LuCI CBI
-│       └── usr/share/luci/menu.d/luci-app-routerbot.json     # LuCI menu
+│       ├── usr/bin/bitsnetworksbot.py            # bot utama (Python)
+│       ├── etc/init.d/bitsnetworksbot             # procd init script
+│       ├── etc/config/bitsnetworksbot             # UCI default config
+│       ├── usr/lib/lua/luci/model/cbi/bitsnetworksbot/config.lua   # LuCI CBI
+│       └── usr/share/luci/menu.d/luci-app-bitsnetworksbot.json     # LuCI menu
 ├── scripts/prepare.js                       # sync versi + build (dipakai semantic-release)
 ├── build.sh                                 # SDK-less .ipk packer
 ├── control / conffiles / postinst           # metadata ipk
@@ -97,10 +97,10 @@ pip3 install python-telegram-bot
 Set the bot token and allowed user IDs in LuCI (`Services → BITS Networks Bot`) or via CLI:
 
 ```sh
-uci set routerbot.config.token='123456789:BOT_TOKEN'
-uci set routerbot.config.allowed_users='123456789'
-uci commit routerbot
-/etc/init.d/routerbot restart
+uci set bitsnetworksbot.config.token='123456789:BOT_TOKEN'
+uci set bitsnetworksbot.config.allowed_users='123456789'
+uci commit bitsnetworksbot
+/etc/init.d/bitsnetworksbot restart
 ```
 
 ### 4. Use
@@ -113,7 +113,7 @@ Open Telegram and send `/start` to your bot.
 
 `/start` `/status` `/internet` `/momo` `/tailscale` `/klien` `/jadwal` `/sistem` `/docker` `/ping` `/trace` `/dns` `/speedtest` `/storage` `/suhu` `/ssh` `/firewall` `/blokir` `/buka` `/reboot`
 
-> Feature flags (per command) can be toggled individually in LuCI under the `routerbot` config.
+> Feature flags (per command) can be toggled individually in LuCI under the `bitsnetworksbot` config.
 
 ---
 

@@ -3,11 +3,11 @@
 START=99
 STOP=01
 
-PROG="/usr/bin/router-bot.py" 
+PROG="/usr/bin/bitsnetworksbot.py" 
 PYTHON_INTERPRETER="/usr/bin/python3"
 
 USE_PROCD=1 
-PROG_NAME="routerbot"
+PROG_NAME="bitsnetworksbot"
 
 start_service() {
     procd_open_instance "${PROG_NAME}"
