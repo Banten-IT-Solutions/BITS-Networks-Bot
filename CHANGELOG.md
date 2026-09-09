@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.2.0...v1.2.1) (2026-09-09)
+
+
+### Bug Fixes
+
+* strip + from luci Depends (opkg control needs plain package names) ([f656059](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/f656059c82e78a6179be85ca2367d1be809e26d3))
+
 # [1.2.0](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.11...v1.2.0) (2026-09-09)
 
 
