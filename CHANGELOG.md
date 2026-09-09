@@ -1,3 +1,10 @@
+## [1.1.9](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.8...v1.1.9) (2026-09-09)
+
+
+### Bug Fixes
+
+* remove dead menu.d css field + orphan style.css (dispatcher.uc ignores 'css') ([fe83b10](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/fe83b10a11fb25d20d92ac1d66d3b81795a11450))
+
 ## [1.1.8](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.7...v1.1.8) (2026-09-09)
 
 
