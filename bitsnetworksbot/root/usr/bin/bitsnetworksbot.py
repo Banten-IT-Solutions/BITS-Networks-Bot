@@ -890,18 +890,29 @@ def docker_images_text():
     return "\n".join(lines)
 
 
+def _docker_run(args, timeout=15):
+    """Jalankan perintah docker (list args → aman dari shell injection), gabung stderr."""
+    try:
+        r = subprocess.run(args, capture_output=True, text=True,
+                           timeout=timeout, stderr=subprocess.STDOUT)
+        return r.stdout.strip()
+    except Exception as e:
+        logger.error(f"docker run gagal [{args}]: {e}")
+        return ""
+
+
 def docker_logs(name):
-    out = run(f"docker logs --tail 30 {name} 2>&1")
+    out = _docker_run(["docker", "logs", "--tail", "30", name])
     if not out:
-        return f"🐳 Log <code>{name}</code> kosong."
-    return f"📜 <b>Log {name}:</b>\n<pre>{out[-3000:]}</pre>"
+        return f"🐳 Log <code>{esc(name)}</code> kosong."
+    return f"📜 <b>Log {esc(name)}:</b>\n<pre>{esc(out[-3000:])}</pre>"
 
 
 def docker_ctl(op, name):
-    out = run(f"docker {op} {name} 2>&1")
+    out = _docker_run(["docker", op, name])
     time.sleep(2)
     tail = esc(out[:200]) if out else "ok"
-    return f"✅ <b>docker {op} {name}</b> selesai.\n<pre>{tail}</pre>"
+    return f"✅ <b>docker {op} {esc(name)}</b> selesai.\n<pre>{tail}</pre>"
 
 
 def docker_prune():
