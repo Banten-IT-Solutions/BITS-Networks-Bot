@@ -139,13 +139,6 @@ def load_config():
             u = u.strip()
             if u.isdigit():
                 users.add(int(u))
-        if TOKEN and ":" in TOKEN:
-            try:
-                bid = TOKEN.split(":", 1)[0]
-                if bid.isdigit():
-                    users.add(int(bid))
-            except Exception as e:
-                logger.error(f"Gagal ekstrak ID bot: {e}")
         ALLOWED_USERS = list(users)
         for cmd in ["status", "devices", "reboot", "internet", "momo",
                     "tailscale", "sistem", "jadwal", "monitor", "docker",
