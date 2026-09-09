@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.11...v1.2.0) (2026-09-09)
+
+
+### Features
+
+* split into bitsnetworksbot (daemon) + luci-app-bitsnetworksbot (UI) ([3f9270e](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/3f9270e57d831c35ad68079e0956d67d179bc1bc))
+
 ## [1.1.11](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.10...v1.1.11) (2026-09-09)
 
 
