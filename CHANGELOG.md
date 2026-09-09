@@ -1,3 +1,11 @@
+## [1.1.6](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.5...v1.1.6) (2026-09-09)
+
+
+### Bug Fixes
+
+* responsive LuCI form for mobile (token field full-width) + token placeholder ([49d0448](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/49d0448c50b4f4b835ec8e890155a6767e8e15cc))
+* **security:** docker commands via list args (no shell injection) + esc name/output ([e7a26fa](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/e7a26faa0a59aade3a9500d38a60d80a9b843bc9))
+
 ## [1.1.5](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.4...v1.1.5) (2026-09-09)
 
 
