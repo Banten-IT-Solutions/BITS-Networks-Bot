@@ -893,8 +893,8 @@ def docker_images_text():
 def _docker_run(args, timeout=15):
     """Jalankan perintah docker (list args → aman dari shell injection), gabung stderr."""
     try:
-        r = subprocess.run(args, capture_output=True, text=True,
-                           timeout=timeout, stderr=subprocess.STDOUT)
+        r = subprocess.run(args, text=True, timeout=timeout,
+                           stdout=subprocess.PIPE, stderr=subprocess.STDOUT)
         return r.stdout.strip()
     except Exception as e:
         logger.error(f"docker run gagal [{args}]: {e}")
