@@ -26,7 +26,7 @@ ENABLED_COMMANDS = {}
 
 LOG_FILE = "/var/log/bitsnetworksbot.log"
 DIV = "━" * 24
-BRAND = "BITS Networks Bot"
+NOBODY_UID = 65534
 
 
 def div_for(*lines):
@@ -64,7 +64,7 @@ WIZ = {}
 DAY_ID = {1: "Sen", 2: "Sel", 3: "Rab", 4: "Kam", 5: "Jum", 6: "Sab", 7: "Min"}
 
 # ================= LOGGING (file + rotasi) =================
-logger = logging.getLogger("bitsbot")
+logger = logging.getLogger("bitsnetworksbot")
 logger.setLevel(logging.INFO)
 _fh = logging.handlers.RotatingFileHandler(LOG_FILE, maxBytes=200 * 1024, backupCount=2)
 _fh.setFormatter(logging.Formatter("%(asctime)s - %(levelname)s - %(message)s"))
@@ -250,14 +250,6 @@ def get_uptime_precise():
     if m:
         parts.append(f"{m} Menit")
     return " ".join(parts) if parts else "Kurang 1 Menit"
-
-
-def html_esc(text):
-    """Escape karakter khusus untuk parse_mode HTML."""
-    if text is None:
-        return "-"
-    return (str(text).replace("&", "&amp;")
-            .replace("<", "&lt;").replace(">", "&gt;"))
 
 
 def get_loadavg():
@@ -482,35 +474,6 @@ def status_text_cached():
     return txt
 
 # ================= PUBLIC IP & UPLINK =================
-PUB_IP_CACHE = {"ts": 0, "ip": "", "isp": "", "city": "", "country": ""}
-
-
-def public_ip():
-    now = time.monotonic()
-    if now - PUB_IP_CACHE["ts"] < 300 and PUB_IP_CACHE["ip"]:
-        return PUB_IP_CACHE
-    try:
-        req = urllib.request.Request(
-            "http://ip-api.com/json?fields=query,isp,city,country", method="GET")
-        req.add_header("User-Agent", "Mozilla/5.0")
-        with urllib.request.urlopen(req, timeout=10) as r:
-            d = json.loads(r.read().decode("utf-8", "ignore"))
-        if d and d.get("status") != "fail":
-            PUB_IP_CACHE.update(ts=now, ip=d.get("query", "-"),
-                                isp=d.get("isp", "-"), city=d.get("city", ""),
-                                country=d.get("country", ""))
-            return PUB_IP_CACHE
-    except Exception as e:
-        logger.error(f"public ip gagal: {e}")
-    try:
-        ip = run("curl -s -m 8 https://ifconfig.me")
-        if ip:
-            PUB_IP_CACHE.update(ts=now, ip=ip, isp="-", city="", country="")
-    except Exception:
-        pass
-    return PUB_IP_CACHE
-
-
 def short_isp(name):
     """Ringkas nama ISP/org jadi label pendek."""
     n = (name or "").strip()
@@ -561,12 +524,12 @@ def _http_text(url):
 
 def _demote_nobody():
     os.setgroups([])
-    os.setgid(65534)
-    os.setuid(65534)
+    os.setgid(NOBODY_UID)
+    os.setuid(NOBODY_UID)
 
 
 def _direct_run(args, timeout=8):
-    """Jalankan perintah sebagai nobody (uid 65534) → bypass redirect momo/sing-box."""
+    """Jalankan perintah sebagai nobody (uid) → bypass redirect momo/sing-box."""
     try:
         r = subprocess.run(args, capture_output=True, text=True,
                            timeout=timeout + 3, preexec_fn=_demote_nobody)
@@ -634,10 +597,6 @@ def _link_chk(label, dev):
 
 def uplink_text():
     return " · ".join([_link_chk("🔗 Modem", "eth1"), _link_chk("📱 Smartphone", "usb0")])
-
-
-def vpn_text():
-    return " · ".join([_link_chk("🛡 Momo", "momo-tun"), _link_chk("🌀 Tailscale", "tailscale0")])
 
 
 # ================= HUAWEI HILINK API =================
@@ -1220,11 +1179,6 @@ def main_buttons():
         rows.append(row)
     return rows
 
-
-def build_main_menu_keyboard():
-    kb = main_buttons() + [[InlineKeyboardButton("📚 Menu", callback_data="menu_main")]]
-    return InlineKeyboardMarkup(kb)
-
 # ================= HANDLER PANEL =================
 async def need_auth_rate(update, target, feat=None):
     if not check_authorization_manual(update, target):
@@ -1300,10 +1254,10 @@ async def handle_start(update, context):
     traf = data["trafik"]
     swap = data["swap"]
 
-    wan_ip = html_esc(pub.get("wan_ip") or "-")
-    wan_isp = html_esc(pub.get("wan_isp") or "-")
-    vpn_ip = html_esc(pub.get("vpn_ip") or "-")
-    vpn_isp = html_esc(pub.get("vpn_isp") or "-")
+    wan_ip = esc(pub.get("wan_ip") or "-")
+    wan_isp = esc(pub.get("wan_isp") or "-")
+    vpn_ip = esc(pub.get("vpn_ip") or "-")
+    vpn_isp = esc(pub.get("vpn_isp") or "-")
     temp_s = f"{temp:.0f}°C" if temp is not None else "-"
 
     stats = f"🌡 CPU {temp_s} · 🧠 RAM {pct:.0f}% · 💽 Disk {dpct:.0f}%"
@@ -1314,9 +1268,9 @@ async def handle_start(update, context):
 
     header = "🤖 <b>BITS Networks</b>"
     mid = "\n".join([
-        f"👋 {html_esc(greeting())}{html_esc(name)}!",
+        f"👋 {esc(greeting())}{esc(name)}!",
         "",
-        f"🖥️ BITS-WRT 🟢 Online · {html_esc(get_uptime_precise())}",
+        f"🖥️ BITS-WRT 🟢 Online · {esc(get_uptime_precise())}",
         "",
         f"🌐 <b>WAN :</b> <code>{wan_ip}</code> · {wan_isp}",
         f"🛡 <b>VPN :</b> <code>{vpn_ip}</code> · {vpn_isp}",
@@ -1577,19 +1531,6 @@ def act_fw_restart():
     run("/etc/init.d/firewall restart")
     time.sleep(3)
     return "♻ <b>Firewall di-restart.</b>\n\n" + firewall_text()
-
-
-# kompatibilitas perintah lama
-async def status(update, context):
-    await handle_status(update, context)
-
-
-async def devices(update, context):
-    await handle_klien(update, context)
-
-
-async def help_command(update, context):
-    await handle_start(update, context)
 
 # ================= AKSI =================
 async def do_action(query, target, label, func, *args):
