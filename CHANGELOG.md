@@ -1,3 +1,10 @@
+## [1.1.2](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.1...v1.1.2) (2026-09-09)
+
+
+### Bug Fixes
+
+* ensure trailing newline in ipk control files (opkg warning) ([1e34709](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/1e3470907169b05cfff482c4ec30b71148319f1a))
+
 ## [1.1.1](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.1.0...v1.1.1) (2026-09-09)
 
 
