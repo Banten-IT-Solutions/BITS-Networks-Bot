@@ -2212,12 +2212,28 @@ async def monitor_loop(app: Application):
         await asyncio.sleep(60)
 
 # ================= MAIN =================
+def _loop_exc_handler(loop, context):
+    """Tangani exception task background (mis. timeout polling) tanpa crash proses."""
+    exc = context.get("exception")
+    msg = context.get("message", "")
+    if exc and "already running" in str(exc).lower():
+        return
+    logger.error(f"Event loop error: {msg} {exc}")
+
+
 async def main():
+    asyncio.get_running_loop().set_exception_handler(_loop_exc_handler)
     load_config()
     if not TOKEN or not ALLOWED_USERS:
         logger.warning("TOKEN/USER belum lengkap, menunggu konfigurasi…")
     if TOKEN:
-        app = ApplicationBuilder().token(TOKEN).build()
+        app = (ApplicationBuilder()
+               .token(TOKEN)
+               .connect_timeout(30)
+               .read_timeout(30)
+               .write_timeout(30)
+               .pool_timeout(30)
+               .build())
         _cmds = [BotCommand("start", "🏠 Menu utama")]
         if ENABLED_COMMANDS.get("status"):
             _cmds.append(BotCommand("status", "📊 Status router"))
@@ -2251,39 +2267,48 @@ async def main():
         if ENABLED_COMMANDS.get("devices"):
             _cmds.append(BotCommand("blokir", "🚫 Blokir klien"))
             _cmds.append(BotCommand("buka", "✅ Buka blokir klien"))
-        await app.bot.set_my_commands(_cmds)
-        app.add_handler(CommandHandler("start", handle_start))
-        app.add_handler(CommandHandler("status", handle_status))
-        app.add_handler(CommandHandler("internet", handle_internet))
-        app.add_handler(CommandHandler("momo", handle_momo))
-        app.add_handler(CommandHandler("tailscale", handle_tailscale))
-        app.add_handler(CommandHandler("klien", handle_klien))
-        app.add_handler(CommandHandler("sistem", handle_sistem))
-        app.add_handler(CommandHandler("reboot", reboot_prompt))
-        app.add_handler(CommandHandler("jadwal", handle_sched))
-        app.add_handler(CommandHandler("docker", cmd_docker))
-        app.add_handler(CommandHandler("ping", cmd_ping))
-        app.add_handler(CommandHandler("trace", cmd_trace))
-        app.add_handler(CommandHandler("dns", cmd_dns))
-        app.add_handler(CommandHandler("speedtest", cmd_speedtest))
-        app.add_handler(CommandHandler("storage", cmd_storage))
-        app.add_handler(CommandHandler("suhu", cmd_suhu))
-        app.add_handler(CommandHandler("firewall", cmd_firewall))
-        app.add_handler(CommandHandler("ssh", cmd_ssh))
-        app.add_handler(CommandHandler("blokir", cmd_blokir))
-        app.add_handler(CommandHandler("buka", cmd_buka))
-        app.add_handler(CallbackQueryHandler(button_callback))
-        app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, wizard_text))
-        logger.info("Bot running.")
-        await app.initialize()
-        await app.start()
-        global is_polling_running
-        is_polling_running = False
-        app.job_queue.run_once(start_polling_task, 0, name="initial_polling")
-        asyncio.create_task(polling_management_loop(app))
-        asyncio.create_task(monitor_loop(app))
-        await asyncio.Event().wait()
-        await app.shutdown()
+        try:
+            await app.bot.set_my_commands(_cmds)
+            app.add_handler(CommandHandler("start", handle_start))
+            app.add_handler(CommandHandler("status", handle_status))
+            app.add_handler(CommandHandler("internet", handle_internet))
+            app.add_handler(CommandHandler("momo", handle_momo))
+            app.add_handler(CommandHandler("tailscale", handle_tailscale))
+            app.add_handler(CommandHandler("klien", handle_klien))
+            app.add_handler(CommandHandler("sistem", handle_sistem))
+            app.add_handler(CommandHandler("reboot", reboot_prompt))
+            app.add_handler(CommandHandler("jadwal", handle_sched))
+            app.add_handler(CommandHandler("docker", cmd_docker))
+            app.add_handler(CommandHandler("ping", cmd_ping))
+            app.add_handler(CommandHandler("trace", cmd_trace))
+            app.add_handler(CommandHandler("dns", cmd_dns))
+            app.add_handler(CommandHandler("speedtest", cmd_speedtest))
+            app.add_handler(CommandHandler("storage", cmd_storage))
+            app.add_handler(CommandHandler("suhu", cmd_suhu))
+            app.add_handler(CommandHandler("firewall", cmd_firewall))
+            app.add_handler(CommandHandler("ssh", cmd_ssh))
+            app.add_handler(CommandHandler("blokir", cmd_blokir))
+            app.add_handler(CommandHandler("buka", cmd_buka))
+            app.add_handler(CallbackQueryHandler(button_callback))
+            app.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, wizard_text))
+            logger.info("Bot running.")
+            await app.initialize()
+            await app.start()
+            global is_polling_running
+            is_polling_running = False
+            app.job_queue.run_once(start_polling_task, 0, name="initial_polling")
+            asyncio.create_task(polling_management_loop(app))
+            asyncio.create_task(monitor_loop(app))
+            await asyncio.Event().wait()
+            await app.shutdown()
+        except Exception as e:
+            logger.error(f"Bot gagal start, retry 5 dtk: {e}")
+            try:
+                await app.shutdown()
+            except Exception:
+                pass
+            await asyncio.sleep(5)
+            return
     else:
         logger.warning("Tanpa TOKEN, polling management saja.")
         dummy = ApplicationBuilder().token("DUMMY").build()
@@ -2297,5 +2322,5 @@ if __name__ == "__main__":
         try:
             asyncio.run(main())
         except Exception as e:
-            logger.critical(f"MAIN CRASH: {e}. Restart 10 dtk…")
-            time.sleep(10)
+            logger.critical(f"MAIN CRASH: {e}. Restart 3 dtk…")
+            time.sleep(3)
