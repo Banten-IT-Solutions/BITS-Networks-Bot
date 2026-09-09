@@ -17,6 +17,8 @@ s.anonymous = true
 local token = s:option(Value, "token", translate("Bot Token"))
 token.password = true 
 token.datatype = "string"
+token.size = 60
+token.placeholder = "123456789:AA...token"
 token.description = translate("Token API yang didapat dari BotFather. Wajib diisi.")
 
 -- ALLOWED_USERS
