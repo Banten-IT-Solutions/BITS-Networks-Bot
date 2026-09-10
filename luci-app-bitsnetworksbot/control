@@ -1,5 +1,5 @@
 Package: luci-app-bitsnetworksbot
-Version: 1.2.2
+Version: 1.2.3
 Depends: bitsnetworksbot, luci-base, rpcd, libc
 Section: luci
 Architecture: all

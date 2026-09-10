@@ -1,6 +1,6 @@
 {
   "name": "bitsnetworksbot",
-  "version": "1.2.2",
+  "version": "1.2.3",
   "private": true,
   "description": "Telegram management bot for OpenWrt routers (BITS-WRT)",
   "repository": {

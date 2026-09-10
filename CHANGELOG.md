@@ -1,3 +1,10 @@
+## [1.2.3](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.2.2...v1.2.3) (2026-09-10)
+
+
+### Bug Fixes
+
+* remove message=m from synthetic Update (was overriding effective_user with bot ID) ([823544d](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/823544d676297febb1bfc3e13ec8d32500821c39))
+
 ## [1.2.2](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.2.1...v1.2.2) (2026-09-09)
 
 
