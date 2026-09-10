@@ -1668,13 +1668,7 @@ async def button_callback(update, context):
             pass
         return
 
-    m = query.message
-    try:
-        if m.from_user is None:
-            m.from_user = query.from_user
-    except Exception:
-        pass
-    tu = Update(update_id=update.update_id, message=m, callback_query=query)
+    tu = Update(update_id=update.update_id, callback_query=query)
 
     if cmd in ("menu_main", "start"):
         await handle_start(tu, context)
