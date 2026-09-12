@@ -1,3 +1,10 @@
+## [1.2.5](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.2.4...v1.2.5) (2026-09-12)
+
+
+### Bug Fixes
+
+* narrow apk attach glob ([b17485b](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/b17485baeaeece59220837f47483d5eab32caabc))
+
 ## [1.2.4](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.2.3...v1.2.4) (2026-09-12)
 
 
