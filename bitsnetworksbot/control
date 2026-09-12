@@ -1,5 +1,5 @@
 Package: bitsnetworksbot
-Version: 1.2.3
+Version: 1.2.4
 Depends: libc, python3-light, python3-asyncio, python3-urllib, python3-logging, python3-pip, curl, ca-certificates, speedtest-go
 Section: utils
 Architecture: all

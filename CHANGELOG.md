@@ -1,3 +1,10 @@
+## [1.2.4](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.2.3...v1.2.4) (2026-09-12)
+
+
+### Bug Fixes
+
+* enable apk package build ([e1efb99](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/e1efb99e5bb801ec9a0d42af9b06d44d9a115568))
+
 ## [1.2.3](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.2.2...v1.2.3) (2026-09-10)
 
 
