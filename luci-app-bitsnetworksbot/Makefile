@@ -16,6 +16,6 @@ PKG_MAINTAINER:=Banten IT Solutions <support@bits.co.id>
 PKG_VERSION:=1.2.3
 PKG_RELEASE:=1
 
-include ../../luci.mk
+include $(TOPDIR)/feeds/luci/luci.mk
 
 # call BuildPackage - OpenWrt buildroot signature file

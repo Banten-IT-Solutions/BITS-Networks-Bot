@@ -12,7 +12,7 @@ PKG_RELEASE:=1
 
 PKG_MAINTAINER:=Banten IT Solutions <support@bits.co.id>
 PKG_LICENSE:=MIT
-PKG_ARCH:=all
+PKGARCH:=all
 
 include $(INCLUDE_DIR)/package.mk
 
