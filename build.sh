@@ -15,7 +15,7 @@ for pkg in $PACKAGES; do
 	pkg_desc=$(awk -F': ' '/^Description:/{print $2; exit}' "$ctrl")
 	pkg_depends=$(awk -F': ' '/^Depends:/{print $2; exit}' "$ctrl" | tr ',' ' ')
 	out_ipk="dist/${pkg}_${pkg_ver}_all.ipk"
-	out_apk="dist/${pkg}_${pkg_ver}_all.apk"
+	out_apk="dist/${pkg}-${pkg_ver}-r0.apk"
 	b=".build/$pkg"
 	mkdir -p "$b/root" "$b/control" "$b/outer"
 
