@@ -35,7 +35,7 @@
 | **Sistem**                | Storage, suhu, cleanup RAM, backup, log, dan reboot.                                                              |
 | **Tools**                 | Ping, traceroute, DNS, dan speedtest.                                                                             |
 | **Monitor**               | Notifikasi WAN up/down, suhu, RAM, disk, perangkat baru & laporan harian 07:00.                                   |
-| **Automated Release**     | semantic-release builds the `.ipk` and publishes a GitHub Release on every conventional commit.                   |
+| **Automated Release**     | semantic-release builds `.ipk` + `.apk` and publishes a GitHub Release on every conventional commit.                |
 
 ## 🛠️ Tech Stack
 
@@ -45,7 +45,7 @@
 | **Bot**      | `python-telegram-bot` v22 (async / `asyncio`)                                     |
 | **Config**   | UCI (`/etc/config/bitsnetworksbot`)                                               |
 | **Language** | Python 3 (LuCI CBI model untuk halaman konfigurasi)                               |
-| **Build**    | `bash` + `tar` (no SDK), OpenWrt build system (`package.mk`)                      |
+| **Build**    | `bash` + `tar` (ipk) + `apk-tools v3` (apk) — no SDK                       |
 | **Release**  | semantic-release + GitHub Actions                                                 |
 
 ---
@@ -55,28 +55,28 @@
 ```text
 BITS-Networks-Bot/
 ├── .github/
+│   ├── dependabot.yml             # dep update (npm + actions)
 │   └── workflows/
-│       └── release.yml            # semantic-release + build .ipk + attach asset
-├── bitsnetworksbot/               # ← paket DAEMON (package.mk)
-│   ├── Makefile                   # OpenWrt package def
-│   ├── control                    # ipk metadata (+ Depends)
+│       └── release.yml            # semantic-release + build .ipk/.apk + attach asset
+├── bitsnetworksbot/               # ← paket DAEMON
+│   ├── control                    # ipk/apk metadata (+ Depends)
 │   ├── conffiles                  # preserve /etc/config/bitsnetworksbot
 │   ├── postinst                   # enable procd + auto pip install (best-effort)
 │   └── root/
 │       ├── usr/bin/bitsnetworksbot.py         # bot utama (Python)
 │       ├── etc/init.d/bitsnetworksbot         # procd init script
 │       └── etc/config/bitsnetworksbot         # UCI default config
-├── luci-app-bitsnetworksbot/      # ← paket UI (luci.mk), depends +bitsnetworksbot
-│   ├── Makefile                   # OpenWrt package def (luci.mk)
-│   ├── control                    # ipk metadata
+├── luci-app-bitsnetworksbot/      # ← paket UI, Depends: bitsnetworksbot
+│   ├── control                    # ipk/apk metadata
 │   ├── postinst                   # inject CSS responsive + clear cache
 │   └── root/
 │       ├── usr/lib/lua/luci/model/cbi/bitsnetworksbot/config.lua   # LuCI CBI
 │       └── usr/share/luci/menu.d/luci-app-bitsnetworksbot.json     # LuCI menu
 ├── scripts/
-│   └── prepare.js                 # sync version + build (2 ipk)
-├── build.sh                       # SDK-less .ipk packer (2 packages)
+│   └── prepare.js                 # sync version + build .ipk/.apk
+├── build.sh                       # SDK-less .ipk + .apk packer (2 packages)
 ├── package.json                   # semantic-release + plugins
+├── package-lock.json              # npm lockfile (npm ci)
 ├── .releaserc.json                # release plugins (git + github)
 └── LICENSE
 ```
@@ -92,15 +92,21 @@ BITS-Networks-Bot/
 
 ### 1. Download
 
-Grab the `.ipk` from the [Releases](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/releases) page, then copy it to your device.
+Grab package dari [Releases](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/releases), lalu copy ke device:
+- `.ipk` untuk OpenWrt 22.03–24.10 (`opkg`)
+- `.apk` untuk OpenWrt 25.12+ (`apk`)
 
 ### 2. Install
 
 ```sh
 # bot daemon (wajib)
-opkg install bitsnetworksbot_<version>_all.ipk
+opkg install bitsnetworksbot_<version>_all.ipk       # 22.03–24.10
 # halaman LuCI (opsional)
 opkg install luci-app-bitsnetworksbot_<version>_all.ipk
+
+# OpenWrt 25.12+ (apk)
+apk add bitsnetworksbot_<version>_all.apk
+apk add luci-app-bitsnetworksbot_<version>_all.apk
 ```
 
 Dependencies (`python3-light`, `python3-asyncio`, `python3-urllib`, `python3-logging`, `python3-pip`, `curl`, `ca-certificates`, `speedtest-go`) are installed automatically. `python-telegram-bot` (not in the official feed) is installed best-effort via `pip` in the `postinst`. The LuCI page is a separate `luci-app-bitsnetworksbot` package (`Depends: bitsnetworksbot`).
@@ -132,30 +138,17 @@ Open Telegram and send `/start` to your bot.
 
 ## 🏗️ Build
 
-Choose one method. **SDK-less** for a quick `.ipk`; **OpenWrt build system** for the official feed.
-
-### Option A — SDK-less (bash + tar)
-
-Best for fast development and CI. Requires only `bash` + `tar` &mdash; no toolchain.
+SDK-less `.ipk` + `.apk`. Butuh `apk-tools v3` (`apk mkpkg`) di `PATH`. Di CI sudah di-cache; lokal install `apk-tools` 3.x atau set `APK_BIN=<path/to/apk>`.
 
 ```sh
 ./build.sh
 # output: dist/bitsnetworksbot_<version>_all.ipk
+#         dist/bitsnetworksbot_<version>_all.apk
 #         dist/luci-app-bitsnetworksbot_<version>_all.ipk
+#         dist/luci-app-bitsnetworksbot_<version>_all.apk
 ```
 
-> The OpenWrt `.ipk` format is an outer `tar.gz` containing `./debian-binary` + `./control.tar.gz` + `./data.tar.gz`.
-
-### Option B — OpenWrt Build System
-
-Daemon ke `feeds/packages/utils/`, UI ke `feeds/luci/applications/`, lalu:
-
-```sh
-./scripts/feeds update -a
-./scripts/feeds install bitsnetworksbot luci-app-bitsnetworksbot
-make menuconfig   # Utilities -> bitsnetworksbot ; LuCI -> Applications -> luci-app-bitsnetworksbot
-make package/bitsnetworksbot/compile package/luci-app-bitsnetworksbot/compile
-```
+> `.ipk` = outer `tar.gz` (debian-binary + control.tar.gz + data.tar.gz). `.apk` = ADB container via `apk mkpkg`.
 
 ---
 
@@ -169,7 +162,7 @@ Releases are automated with [semantic-release](https://semantic-release.gitbook.
 | `feat: ...`                      | minor      |
 | `BREAKING CHANGE:` in body       | major      |
 
-Push to `main` and the workflow builds the `.ipk` and publishes a GitHub Release with the asset attached.
+Push to `main` dan workflow build `.ipk` + `.apk` (build.sh + apk-tools) lalu publish ke GitHub Release.
 
 ---
 

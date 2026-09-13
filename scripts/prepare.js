@@ -1,6 +1,5 @@
 // prepare.js — dipanggil semantic-release pada fase "prepare".
-// Menyelaraskan versi package.json + control + Makefile (kedua paket),
-// lalu membangun .ipk (bitsnetworksbot + luci-app-bitsnetworksbot).
+// Menyelaraskan versi (package.json + lockfile + control), lalu build .ipk + .apk.
 const fs = require('fs');
 const { execSync } = require('child_process');
 
@@ -13,24 +12,17 @@ if (!version) {
 
 const packages = ['bitsnetworksbot', 'luci-app-bitsnetworksbot'];
 
-// package.json
-const pkg = JSON.parse(fs.readFileSync('package.json', 'utf8'));
-pkg.version = version;
-fs.writeFileSync('package.json', JSON.stringify(pkg, null, 2) + '\n');
+// 1) bump package.json + package-lock.json (npm version sinkron keduanya)
+execSync(`npm version --no-git-tag-version ${version}`, { stdio: 'inherit' });
 
+// 2) bump control (ipk + apk membaca Version dari control)
 for (const name of packages) {
-  // control (opkg)
   let control = fs.readFileSync(`${name}/control`, 'utf8');
   control = control.replace(/^Version: .*$/m, `Version: ${version}`);
   fs.writeFileSync(`${name}/control`, control);
-
-  // Makefile (OpenWrt build system PKG_VERSION)
-  let makefile = fs.readFileSync(`${name}/Makefile`, 'utf8');
-  makefile = makefile.replace(/^PKG_VERSION:=.*$/m, `PKG_VERSION:=${version}`);
-  fs.writeFileSync(`${name}/Makefile`, makefile);
 }
 
-// build ipk (build.sh membaca Version dari masing-masing control)
+// 3) build .ipk + .apk (build.sh membaca metadata dari masing-masing control)
 execSync('bash build.sh', { stdio: 'inherit' });
 
 console.log(`prepared version ${version}`);
