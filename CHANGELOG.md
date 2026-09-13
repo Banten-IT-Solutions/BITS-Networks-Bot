@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.2.5...v1.3.0) (2026-09-13)
+
+
+### Features
+
+* build .ipk + .apk tanpa SDK via apk-tools v3 ([ac47b55](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/ac47b55a41114ac14141531f1c82e10613ab5892))
+
 ## [1.2.5](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.2.4...v1.2.5) (2026-09-12)
 
 
