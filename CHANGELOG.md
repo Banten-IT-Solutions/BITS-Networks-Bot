@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.3.0...v1.3.1) (2026-09-13)
+
+
+### Bug Fixes
+
+* standard apk filename (name-version-r0.apk) for apk feed ([a20b8e0](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/commit/a20b8e05bf5acd0e8ee92613e5274a6c2f9741f9))
+
 # [1.3.0](https://github.com/Banten-IT-Solutions/BITS-Networks-Bot/compare/v1.2.5...v1.3.0) (2026-09-13)
 
 
